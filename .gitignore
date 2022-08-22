@@ -39,3 +39,6 @@ build/
 /Sprint0
 /videos
 /files
+files
+/files/**
+files/**
