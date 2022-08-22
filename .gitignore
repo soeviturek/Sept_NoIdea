@@ -34,11 +34,7 @@ build/
 
 
 ###github & backups###
-/meeting minutes
-/contribution sheet
-/Sprint0
-/videos
-/files
-files
+*.mp4
+*.pdf
 /files/**
 files/**
