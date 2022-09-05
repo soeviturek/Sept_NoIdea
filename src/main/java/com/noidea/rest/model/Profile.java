@@ -1,9 +1,6 @@
-package com.example.demo.entity;
+package com.noidea.rest.model;
 
-import javax.persistence.Entity;
-
-@Entity
-public class Prifile {
+public class Profile {
     private int id;
     private String userId;
     private String profilePic;

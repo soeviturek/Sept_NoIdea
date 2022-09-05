@@ -1,8 +1,7 @@
-package com.example.demo;
+package com.noidea.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
 @SpringBootTest
 class DemoApplicationTests {
 
