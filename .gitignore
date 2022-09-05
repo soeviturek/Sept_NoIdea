@@ -36,5 +36,3 @@ build/
 ###github & backups###
 *.mp4
 *.pdf
-/files/**
-files/**
