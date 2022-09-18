@@ -1,5 +1,6 @@
 package com.noidea.rest.model;
 
+
 public class User {
 
     private String userid;
