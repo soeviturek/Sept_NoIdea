@@ -1,18 +1,27 @@
 package com.noidea.rest.model;
 
-public class User {
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-    private String userid;
+import javax.persistence.*;
+
+@Entity
+@Table(name = "user")
+@EntityListeners(AuditingEntityListener.class)
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int userid;
+
     private String password;
-    private String userType;
+    private int userType;
     private String email;
     private String mobile;
-    private String deleteFlag;
+    private int deleteFlag;
 
     public User() {
     }
 
-    public User(String userid, String password, String userType, String email, String mobile, String deleteFlag) {
+    public User(int userid, String password, int userType, String email, String mobile, int deleteFlag) {
         this.userid = userid;
         this.password = password;
         this.userType = userType;
@@ -21,11 +30,11 @@ public class User {
         this.deleteFlag = deleteFlag;
     }
 
-    public String getUserid() {
+    public int getUserid() {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    public void setUserid(int userid) {
         this.userid = userid;
     }
 
@@ -37,11 +46,11 @@ public class User {
         this.password = password;
     }
 
-    public String getUserType() {
+    public int getUserType() {
         return userType;
     }
 
-    public void setUserType(String userType) {
+    public void setUserType(int userType) {
         this.userType = userType;
     }
 
@@ -61,11 +70,11 @@ public class User {
         this.mobile = mobile;
     }
 
-    public String getDeleteFlag() {
+    public int getDeleteFlag() {
         return deleteFlag;
     }
 
-    public void setDeleteFlag(String deleteFlag) {
+    public void setDeleteFlag(int deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
 

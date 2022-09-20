@@ -1,54 +1,64 @@
 package com.noidea.rest.controller;
 
 import com.noidea.rest.dao.UserDao;
+import com.noidea.rest.dao.UserNewDao;
+import com.noidea.rest.dao.UserRepository;
 import com.noidea.rest.model.LoginInfo;
 import com.noidea.rest.model.User;
+
+import com.noidea.rest.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
 public class RegisterController {
     @Autowired
-    private UserDao userDao;
+    private UserServiceImpl userDao;
     //get all users api
     @GetMapping("/all_users")
-    public ResponseEntity<Object> getAllUsers() {
-        List<User> userList = userDao.getAllUser();
+    public ResponseEntity<Object> getAllUsers(@PageableDefault(page = 0,
+            size = 100) @SortDefault.SortDefaults({@SortDefault(sort = "modified",
+            direction = Sort.Direction.DESC)}) Pageable pageable) {
+        List<UserDao> userList = userDao.getAllUser(pageable);
         return ResponseEntity.ok().header("OK!").body(userList);
     }
     //create
     @PostMapping("/create")
-    public ResponseEntity<Object> createUser(@RequestBody User user){
+    public ResponseEntity<Object> createUser(@RequestBody UserDao user){
         userDao.addUser(user);
         return ResponseEntity.ok("Created!");
     }
     //get by username
     @GetMapping("/get/{id}")
     @ResponseBody
-    public ResponseEntity<Object> getUserbyId(@PathVariable("id") String id){
-        User user = userDao.getUser(id);
+    public ResponseEntity<Object> getUserbyId(@PathVariable("id") int id){
+        UserDao user = userDao.getUser(id);
         return ResponseEntity.ok().body(user);
     }
     //update
     @PutMapping("/update/{id}")
     @ResponseBody
-    public ResponseEntity<Object> updateUser(@PathVariable(name = "id") String id, @RequestBody User updateUser){
-        User user = userDao.getUser(id);
+    public ResponseEntity<Object> updateUser(@PathVariable(name = "id") int id, @RequestBody User updateUser){
+        UserDao user = userDao.getUser(id);
         user.setEmail(updateUser.getEmail());
         user.setMobile(updateUser.getMobile());
         user.setPassword(updateUser.getPassword());
-        int updatedEmployee = userDao.addUser(user);
+        UserNewDao updatedEmployee = userDao.addUser(user);
         return ResponseEntity.ok("Updated!");
     }
     //login
     @GetMapping("/login")
     @ResponseBody
     public ResponseEntity<Object> login(@RequestBody LoginInfo info){
-        User user = userDao.getUser(info.getuserid());
+        UserDao user = userDao.getUser(Integer.parseInt(info.getuserid()));
         if(user.getPassword().equals(info.getPassword())){
             return ResponseEntity.ok("Loged in!");
         }
@@ -58,10 +68,10 @@ public class RegisterController {
     //delete
     @DeleteMapping("/delete/{id}")
     @ResponseBody
-    public ResponseEntity<Object> deleteUser(@PathVariable String id){
-        User user= userDao.getUser(id);
-        user.setDeleteFlag("1");
-        int updatedEmployee = userDao.addUser(user);
+    public ResponseEntity<Object> deleteUser(@PathVariable int id){
+        UserDao user= userDao.getUser(id);
+        user.setDeleteFlag(1);
+        UserNewDao updatedEmployee = userDao.addUser(user);
         return ResponseEntity.ok("Deleted");
     }
 

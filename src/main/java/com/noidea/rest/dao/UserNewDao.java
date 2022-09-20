@@ -1,18 +1,23 @@
 package com.noidea.rest.dao;
-import com.noidea.rest.model.User;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Repository;
-import com.noidea.rest.dao.UserRepository;
-import java.util.ArrayList;
-import java.util.List;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-public class UserDao {
-
+public class UserNewDao {
+    @NotNull(message = "id cannot be empty")
     private int userid;
+    @NotNull(message = "Password cannot be empty")
+    @Size(min = 2, max = 15,
+            message = "Password must be at least of 2 letters and not more then 100 letters")
     private String password;
-    private int userType;
+
+    @NotEmpty(message = "email cannot be empty")
+    @Email
     private String email;
+
+    private int userType;
     private String mobile;
     private int deleteFlag;
 
@@ -63,5 +68,4 @@ public class UserDao {
     public void setDeleteFlag(int deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
-
 }
