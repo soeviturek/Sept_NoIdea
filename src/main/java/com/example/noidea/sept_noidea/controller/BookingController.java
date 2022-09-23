@@ -27,21 +27,21 @@ public class BookingController {
     }
     //create
     @PostMapping("/create")
-    public ResponseEntity<Object> createUser(@RequestBody Appointment appointment){
+    public ResponseEntity<Object> createAppointment(@RequestBody Appointment appointment){
         Appointment appDetail = bookingService.addAppointment(appointment);
         return ResponseEntity.ok().header("Created!").body(appDetail);
     }
     //get by appointment id
     @GetMapping("/get/{id}")
     @ResponseBody
-    public ResponseEntity<Object> getUserbyId(@PathVariable("id") int id){
+    public ResponseEntity<Object> getAppointmentById(@PathVariable("id") int id){
         Appointment appointment = bookingService.getAppointment(id);
         return ResponseEntity.ok().body(appointment);
     }
     //update
     @PutMapping("/update/{id}")
     @ResponseBody
-    public ResponseEntity<Object> updateUser(@PathVariable(name = "id") int id, @RequestBody Appointment updateAppointment){
+    public ResponseEntity<Object> updateAppointment(@PathVariable(name = "id") int id, @RequestBody Appointment updateAppointment){
         Appointment original = bookingService.getAppointment(id);
         original.setDateTime(updateAppointment.getDateTime());
         original.setDoctorId(updateAppointment.getDoctorId());
@@ -52,7 +52,7 @@ public class BookingController {
     //delete
     @DeleteMapping("/delete/{id}")
     @ResponseBody
-    public ResponseEntity<Object> deleteUser(@PathVariable int id){
+    public ResponseEntity<Object> deleteAppointment(@PathVariable int id){
         Appointment app = bookingService.getAppointment(id);
         app.setDeleteFlag(1);
         bookingService.addAppointment(app);
