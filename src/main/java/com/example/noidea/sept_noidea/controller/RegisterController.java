@@ -1,19 +1,34 @@
 package com.example.noidea.sept_noidea.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.noidea.sept_noidea.dao.UserDao;
 import com.example.noidea.sept_noidea.dao.UserNewDao;
 import com.example.noidea.sept_noidea.model.LoginInfo;
 import com.example.noidea.sept_noidea.model.User;
 import com.example.noidea.sept_noidea.service.UserServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.print.Pageable;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/api/users")
@@ -29,6 +44,32 @@ public class RegisterController {
     //create
     @PostMapping("/create")
     public ResponseEntity<Object> createUser(@RequestBody UserDao user){
+        User check = userDao.getUserByUsername(user.getUsername());
+        if(check != null){
+            return ResponseEntity.badRequest().body("Username already exists!");
+        }
+        if(user.getUserType() == 1 || user.getUserType() == 2){
+            return ResponseEntity.badRequest().body("No permission to create advanced user types!");
+        }
+        userDao.addUser(user);
+        return ResponseEntity.ok("Created!");
+    }
+    //create
+    @PostMapping("/createdoc")
+    public ResponseEntity<Object> createDoctor(@RequestBody UserDao user){
+//        UserDao admin = userDao.getUser(uid);
+//        if(admin == null || admin.getUserType() != 2){
+//            return ResponseEntity.badRequest().body("No permission to create doctors!");
+//        }
+//        if(user.getUserType() != 1){
+//            return ResponseEntity.badRequest().body("Given user type is not doctor!");
+//        }
+        //check for username
+        User check = userDao.getUserByUsername(user.getUsername());
+        if(check != null){
+            return ResponseEntity.badRequest().body("Username already exists!");
+        }
+
         userDao.addUser(user);
         return ResponseEntity.ok("Created!");
     }
@@ -49,17 +90,6 @@ public class RegisterController {
         user.setPassword(updateUser.getPassword());
         UserNewDao updatedEmployee = userDao.addUser(user);
         return ResponseEntity.ok("Updated!");
-    }
-    //login
-    @GetMapping("/login")
-    @ResponseBody
-    public ResponseEntity<Object> login(@RequestBody LoginInfo info){
-        UserDao user = userDao.getUser(Integer.parseInt(info.getuserid()));
-        if(user.getPassword().equals(info.getPassword())){
-            return ResponseEntity.ok("Loged in!");
-        }
-        return  ResponseEntity.badRequest().body("Password not correct!");
-
     }
     //delete
     @DeleteMapping("/delete/{id}")
