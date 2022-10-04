@@ -4,6 +4,7 @@ public class UserDao {
 
     private int userid;
     private String password;
+    private String username;
     private int userType;
     private String email;
     private String mobile;
@@ -15,6 +16,14 @@ public class UserDao {
 
     public void setUserid(int userid) {
         this.userid = userid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

@@ -8,6 +8,10 @@ import javax.validation.constraints.Size;
 public class UserNewDao {
     @NotNull(message = "id cannot be empty")
     private int userid;
+
+    @NotNull
+    private String username;
+
     @NotNull(message = "Password cannot be empty")
     @Size(min = 2, max = 15,
             message = "Password must be at least of 2 letters and not more then 100 letters")
@@ -27,6 +31,14 @@ public class UserNewDao {
 
     public void setUserid(int userid) {
         this.userid = userid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

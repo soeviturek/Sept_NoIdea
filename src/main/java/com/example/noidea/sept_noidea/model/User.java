@@ -13,6 +13,7 @@ public class User {
     @Column(name = "UID", nullable = false)
     private int userid;
 
+    private String username;
     private String password;
     @Column(name = "Usertype", nullable = false)
     private int userType;
@@ -25,13 +26,22 @@ public class User {
     public User() {
     }
 
-    public User(int userid, String password, int userType, String email, String mobile, int deleteFlag) {
+    public User(int userid, String username, String password, int userType, String email, String mobile, int deleteFlag) {
         this.userid = userid;
+        this.username = username;
         this.password = password;
         this.userType = userType;
         this.email = email;
         this.mobile = mobile;
         this.deleteFlag = deleteFlag;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getUserid() {
@@ -85,12 +95,13 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userid='" + userid + '\'' +
+                "userid=" + userid +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", userType='" + userType + '\'' +
+                ", userType=" + userType +
                 ", email='" + email + '\'' +
                 ", mobile='" + mobile + '\'' +
-                ", deleteFlag='" + deleteFlag + '\'' +
+                ", deleteFlag=" + deleteFlag +
                 '}';
     }
 }

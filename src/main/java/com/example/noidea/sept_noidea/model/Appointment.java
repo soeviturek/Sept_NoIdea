@@ -34,6 +34,9 @@ public class Appointment {
     @Column(name = "Appointmentcol")
     private String AppointmentCol;
 
+    public Appointment() {
+    }
+
     public int getIdAppointment() {
         return idAppointment;
     }

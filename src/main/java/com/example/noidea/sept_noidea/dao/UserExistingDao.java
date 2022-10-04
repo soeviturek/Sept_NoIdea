@@ -10,6 +10,9 @@ public class UserExistingDao {
 
     @NotNull(message = "id cannot be empty")
     private Integer id;
+
+    @NotNull
+    private String username;
     @NotNull(message = "Password cannot be empty")
     @Size(min = 2, max = 15,
             message = "Password must be atleast of 2 letters and not more then 100 letters")
@@ -25,6 +28,14 @@ public class UserExistingDao {
 
     public Integer getId() {
         return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setId(Integer id) {
