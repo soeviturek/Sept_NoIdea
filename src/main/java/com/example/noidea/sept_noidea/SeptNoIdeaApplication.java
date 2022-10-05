@@ -19,4 +19,11 @@ public class SeptNoIdeaApplication {
     BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+    
+    @Bean
+    public HttpFirewall allowUrlSemicolonHttpFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowUrlEncodedDoubleSlash(true);
+        return firewall;
+    }
 }
