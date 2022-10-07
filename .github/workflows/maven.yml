@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: septnoidea
-      DB_USER: admin
-      DB_PASSWORD: septnoidea
+      DB_USER: root
+      DB_PASSWORD: root
       
     steps:
     - name: Set up MySQL
