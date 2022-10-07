@@ -13,8 +13,16 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    env:
+      DB_DATABASE: septnoidea
+      DB_USER: admin
+      DB_PASSWORD: septnoidea
+      
     steps:
+    - name: Set up MySQL
+      run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
     - uses: actions/checkout@v2
     - name: Set up JDK 11
       uses: actions/setup-java@v1
@@ -22,7 +30,7 @@ jobs:
         java-version: '11'
 #         distribution: 'temurin'
 #         cache: maven
-#     - name: Build with Maven
+#     - name: Build with Maven CLEAN
 #       run: mvn clean install
-    - name: Build with Maven Second
+    - name: Build with Maven
       run: mvn -B package --file pom.xml
