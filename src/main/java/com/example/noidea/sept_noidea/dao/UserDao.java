@@ -65,4 +65,17 @@ public class UserDao {
     public void setDeleteFlag(int deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
+
+    @Override
+    public String toString() {
+        return "UserDao{" +
+                "userid=" + userid +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", userType=" + userType +
+                ", email='" + email + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", deleteFlag=" + deleteFlag +
+                '}';
+    }
 }

@@ -1,13 +1,6 @@
 package com.example.noidea.sept_noidea.controller;
-
-
-import com.example.noidea.sept_noidea.dao.UserDao;
-import com.example.noidea.sept_noidea.dao.UserNewDao;
 import com.example.noidea.sept_noidea.model.Appointment;
-import com.example.noidea.sept_noidea.model.LoginInfo;
-import com.example.noidea.sept_noidea.model.User;
 import com.example.noidea.sept_noidea.service.BookingServiceImpl;
-import com.example.noidea.sept_noidea.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +27,15 @@ public class BookingController {
     //get by appointment id
     @GetMapping("/get/{id}")
     @ResponseBody
-    public ResponseEntity<Object> getAppointmentById(@PathVariable("id") int id){
+    public ResponseEntity<Object> getAppointmentByid(@PathVariable("id") int id){
         Appointment appointment = bookingService.getAppointment(id);
         return ResponseEntity.ok().body(appointment);
+    }
+    @GetMapping("/getuid/{uid}")
+    @ResponseBody
+    public ResponseEntity<Object> getAppointmentByUid(@PathVariable("uid") int uid){
+        List<Appointment> appointments = bookingService.getAppointmentByUid(uid);
+        return ResponseEntity.ok().body(appointments);
     }
     //update
     @PutMapping("/update/{id}")

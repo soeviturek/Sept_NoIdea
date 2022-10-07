@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.print.Pageable;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -35,6 +37,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class RegisterController {
     @Autowired
     private UserServiceImpl userDao;
+
+    private Logger logger = Logger.getLogger(RegisterController.class.getName());
     //get all users api
     @GetMapping("/all_users")
     public ResponseEntity<Object> getAllUsers() {
@@ -43,14 +47,21 @@ public class RegisterController {
     }
     //create
     @PostMapping("/create")
-    public ResponseEntity<Object> createUser(@RequestBody UserDao user){
-        User check = userDao.getUserByUsername(user.getUsername());
-        if(check != null){
-            return ResponseEntity.badRequest().body("Username already exists!");
+    public ResponseEntity<Object> createUser(@RequestBody UserDao user) throws Exception{
+        try{
+            User check = userDao.getUserByUsername(user.getUsername());
+            if(check != null) {
+                logger.log(Level.SEVERE,"Username already exists!");
+                return ResponseEntity.badRequest().body("Username already exists!");
+            }
+        }catch(Exception e){
         }
+
         if(user.getUserType() == 1 || user.getUserType() == 2){
             return ResponseEntity.badRequest().body("No permission to create advanced user types!");
         }
+
+        logger.log(Level.INFO,"Received registration Request of User:\n",user);
         userDao.addUser(user);
         return ResponseEntity.ok("Created!");
     }

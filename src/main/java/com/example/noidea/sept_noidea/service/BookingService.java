@@ -7,7 +7,10 @@ import java.util.List;
 public interface BookingService {
     Appointment addAppointment(Appointment appointment);
     Appointment getAppointment(int id);
+    List<Appointment> getAppointmentByUid(int uid);
     List<Appointment> getAllAppointments();
 
     //later should add get all appointments based on userid and time range
+
+    List<Appointment> getAllAppointmentsByUid(int id);
 }

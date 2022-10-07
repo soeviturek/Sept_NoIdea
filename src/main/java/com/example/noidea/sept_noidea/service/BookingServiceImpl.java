@@ -1,13 +1,11 @@
 package com.example.noidea.sept_noidea.service;
 
 import com.example.noidea.sept_noidea.model.Appointment;
-import com.example.noidea.sept_noidea.model.User;
 import com.example.noidea.sept_noidea.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +21,17 @@ public class BookingServiceImpl implements  BookingService{
 
     @Override
     public Appointment getAppointment(int id) {
-        Optional<Appointment> appOpt = bookingRepository.findById(id);
-        if (appOpt.isEmpty()) {
-            throw new ResourceNotFoundException("appointment not found");
+        Optional<Appointment> appOpts = bookingRepository.findById(id);
+        if(appOpts.isEmpty()){
+            return null;
         }
-        return appOpt.get();
+        return appOpts.get();
+    }
+    @Override
+    public List<Appointment> getAppointmentByUid(int uid) {
+        List<Appointment> apps = bookingRepository.getByUid(uid);
+
+        return apps;
     }
 
     @Override
@@ -35,5 +39,13 @@ public class BookingServiceImpl implements  BookingService{
         List<Appointment> appList = (List<Appointment>)bookingRepository.findAll();
         return appList;
 
+
+
+    }
+
+    @Override
+    public List<Appointment> getAllAppointmentsByUid(int id) {
+//        return bookingRepository.getAllById(id);
+        return null;
     }
 }

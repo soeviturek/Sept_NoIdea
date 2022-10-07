@@ -18,9 +18,9 @@ public interface UserRepository extends CrudRepository<User,Integer> {
     Iterable<User> findAll();
 //    public Page<User> findAll(Pageable pageable);
 
-    @Query(value = "SELECT * FROM USER WHERE uid = :uid AND DF = 0",nativeQuery = true)
+    @Query(value = "SELECT * FROM user WHERE uid = :uid AND DF = 0",nativeQuery = true)
     Optional<User> findBy(@Param("uid") int uid);
-    @Query(value = "SELECT * FROM USER WHERE username = :username AND DF = 0",nativeQuery = true)
+    @Query(value = "SELECT * FROM user WHERE username = :username AND DF = 0",nativeQuery = true)
     Optional<User> findByUsername(@Param("username") String username);
 
 }

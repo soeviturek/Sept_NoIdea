@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface RoleRepository extends JpaRepository<Role,Integer> {
-    @Query(value = "SELECT * FROM USER WHERE username = :name",nativeQuery = true)
+    @Query(value = "SELECT * FROM user WHERE username = :name",nativeQuery = true)
     Optional<Role> findByname(@Param("name") String name);
 }

@@ -35,10 +35,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected  void configure(HttpSecurity http) throws Exception{
         http.csrf().disable(); //disable cookie;
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/","/login","/token/refresh/**").permitAll(); // login is default login url
+        http.authorizeRequests().antMatchers("/","/login","/token/refresh/**","/api/users/create").permitAll(); // login is default login url
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/users/createdoc").hasAuthority("2"); //role authorities
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/users/all_users").hasAuthority("2");
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/users/delete/{id}").hasAuthority("2");
+
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/book/create").hasAnyAuthority("0","1","2");
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/book/get/{id}").hasAnyAuthority("0","1","2");
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/book/getuid/{id}").hasAnyAuthority("0","1","2");
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/book/update/{id}").hasAnyAuthority("0","1","2");
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/book/delete/{id}").hasAnyAuthority("0","1","2");
         http.authorizeRequests().anyRequest().authenticated();
         //filter
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
