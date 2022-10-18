@@ -144,7 +144,7 @@ class UserDaoTest {
     void setDeleteFlag() {
         UserDao user = new UserDao();
         user.setDeleteFlag(0);
-        assertEquals(0,user.getEmail());
+        assertEquals(0,user.getDeleteFlag());
 
     }
 }
